@@ -27,6 +27,10 @@ public class DataGenerator {
 
     @BeforeAll
     static void setUpAll(RegistrationInfo registrationInfo) {
+        registerUser(registrationInfo);
+    }
+
+    private static void registerUser(RegistrationInfo registrationInfo) {
         given()
                 .spec(requestSpec)
                 .body(registrationInfo)
@@ -36,35 +40,33 @@ public class DataGenerator {
                 .statusCode(200);
     }
 
-    public static RegistrationInfo registeredActiveUser() {
+    private static RegistrationInfo generateUser(String status) {
         String login = faker.name().firstName();
         String password = faker.internet().password();
-        val registrationInfo = new RegistrationInfo(login, password, "active");
-        setUpAll(registrationInfo);
+        return new RegistrationInfo(login, password, status);
+    }
+
+    public static RegistrationInfo registeredActiveUser() {
+        val registrationInfo = generateUser("active");
+        registerUser(registrationInfo);
         return registrationInfo;
     }
 
     public static RegistrationInfo noRegisteredPassword() {
-        String login = faker.name().firstName();
-        String password = faker.internet().password();
-        val registrationInfo = new RegistrationInfo(login, password, "active");
-        setUpAll(registrationInfo);
-        return new RegistrationInfo(login, "password", "active");
+        val registrationInfo = generateUser("active");
+        registerUser(registrationInfo);
+        return new RegistrationInfo(registrationInfo.getLogin(), "password", "active");
     }
 
     public static RegistrationInfo noRegisteredName() {
-        String login = faker.name().firstName();
-        String password = faker.internet().password();
-        val registrationInfo = new RegistrationInfo(login, password, "active");
-        setUpAll(registrationInfo);
-        return new RegistrationInfo("Andrey", password, "active");
+        val registrationInfo = generateUser("active");
+        registerUser(registrationInfo);
+        return new RegistrationInfo("Andrey", registrationInfo.getPassword(), "active");
     }
 
-    public static RegistrationInfo registeredBlockedUser(String status) {
-        String login = faker.name().firstName();
-        String password = faker.internet().password();
-        val registrationInfo = new RegistrationInfo(login, password, status);
-        setUpAll(registrationInfo);
+    public static RegistrationInfo registeredBlockedUser() {
+        val registrationInfo = generateUser("blocked");
+        registerUser(registrationInfo);
         return registrationInfo;
     }
 }
