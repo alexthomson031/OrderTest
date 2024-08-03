@@ -26,11 +26,7 @@ public class DataGenerator {
             .build();
 
     @BeforeAll
-    static void setUpAll(RegistrationInfo registrationInfo) {
-        registerUser(registrationInfo);
-    }
-
-    private static void registerUser(RegistrationInfo registrationInfo) {
+    static void registerUser(RegistrationInfo registrationInfo) {
         given()
                 .spec(requestSpec)
                 .body(registrationInfo)
@@ -46,12 +42,6 @@ public class DataGenerator {
         return new RegistrationInfo(login, password, status);
     }
 
-    public static RegistrationInfo registeredActiveUser() {
-        val registrationInfo = generateUser("active");
-        registerUser(registrationInfo);
-        return registrationInfo;
-    }
-
     public static RegistrationInfo noRegisteredPassword() {
         val registrationInfo = generateUser("active");
         registerUser(registrationInfo);
@@ -64,8 +54,8 @@ public class DataGenerator {
         return new RegistrationInfo("Andrey", registrationInfo.getPassword(), "active");
     }
 
-    public static RegistrationInfo registeredBlockedUser() {
-        val registrationInfo = generateUser("blocked");
+    public static RegistrationInfo registeredStatus(String status) {
+        val registrationInfo = generateUser(status);
         registerUser(registrationInfo);
         return registrationInfo;
     }
