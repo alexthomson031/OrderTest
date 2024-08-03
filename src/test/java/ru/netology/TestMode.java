@@ -1,6 +1,7 @@
 package ru.netology;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,7 @@ public class TestMode {
 
     @BeforeEach
     void setUpAll() {
+        Configuration.headless = true;
         open("http://localhost:9999");
     }
 
